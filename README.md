@@ -3,7 +3,7 @@
 ## **High-quality denoising of multidimensional fluorescence microscopy images**
 > _Florian Luisier at the [Biomedical Imaging Group](http://bigwww.epfl.ch/) (BIG), EPFL, Switzerland_
 
-[](http://bigwww.epfl.ch/algorithms/denoise/}
+[More information](http://bigwww.epfl.ch/algorithms/denoise/)
 
 ![Example](example.png)
 
