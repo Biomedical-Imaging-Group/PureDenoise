@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="PureDenoise" default="build" basedir=".">
+
+	<property name="imagej" location="../../ImageJ.app/"/>		
+	<property name="plugins-imagej" location="${imagej}/plugins/${ant.project.name}"/>
+	<property name="lib"	location="../Lib/"/>		
+    <property name="jar"	location="dist/${ant.project.name}_.jar"/>
+    <property name="srczip"	location="dist/${ant.project.name}-src.zip"/>
+    <property name="clszip"	location="dist/${ant.project.name}-cls.zip"/>
+    <property name="apizip"	location="dist/${ant.project.name}-api.zip"/>
+
+	<!-- External Libraries -->
+	<path id="lib.path">
+		<pathelement path="${imagej}/ij.jar"/>
+		<pathelement path="${lib}/ImageWare/imageware.jar"/>
+		<pathelement path="${lib}/Jama/jama.jar"/>
+		<pathelement path="${lib}/AdditionalUserInterface/additionaluserinterface.jar"/>
+	</path>
+
+	<!-- Compilation and distribution in zip and jar file -->
+	<target name="build">
+		<mkdir dir="bin"/>
+		
+		<copy toDir="bin/imageware"><fileset dir="${lib}/bin/imageware"/></copy>
+		<copy toDir="bin/jama"><fileset dir="${lib}/bin/jama"/></copy>
+		<copy toDir="bin/additionaluserinterface"><fileset dir="${lib}/bin/additionaluserinterface/"/></copy>
+		<copy file="plugins.config" toDir="bin" />
+		
+ 		<mkdir dir="doc"/>
+		<javadoc destdir="doc" classpathref="lib.path">
+            <fileset dir="src"><include name="*/*.java"/> </fileset>
+        </javadoc>
+
+		<mkdir dir="dist"/>
+		<zip destfile="${srczip}" basedir="src" />
+        <zip destfile="${clszip}" basedir="bin" />
+		<zip destfile="${apizip}" basedir="doc" />
+        <jar destfile="${jar}" basedir="bin" />
+		
+		<mkdir dir="${plugins-imagej}"/>
+		<copy toDir="${plugins-imagej}"><fileset dir="bin"/></copy>
+		
+	</target>
+		
+    <!-- Clean classes, jar and zip -->
+    <target name="clean" description="Clean up build products">
+        <delete dir="bin"/>
+        <delete dir="dist"/>
+        <delete dir="doc"/>
+		<delete dir="${plugins-imagej}"/>
+		<delete file="${plugins-fiji}/${ant.project.name}_.jar"/>
+    </target>
+</project>

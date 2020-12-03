@@ -1,0 +1,33 @@
+// Example of macro calling the PureDenoise plugin
+
+// Syntax of PureDenoise call from a macro
+// Automatic mode:
+// run("PureDenoise ", "parameters='nf cs' estimation='Auto Global' ");
+// run("PureDenoise ", "parameters='nf cs' estimation='Auto Individual' ");
+// where nf is an integer (odd) value representing the number of frames
+// and cs the number of cycle-spins [1..10].
+//
+// Manual mode:
+// run("PureDenoise ", "parameters='nf cs' estimation='Manual a d s' ");
+// where a is alpha, the detector gain,
+// d is  delta the detector offset,
+// and s is the standard deviation of the Gaussian noise
+
+// Load an input image
+run("URL...", "url=http://bigwww.epfl.ch/algorithms/denoise/dataset/Noisy-Test-Data.tif");
+rename("Input PureDenoise Macro");
+
+// Fastest (mono-channnel/non-redundant/manual parameters setting)
+selectWindow("Input PureDenoise Macro");
+run("PureDenoise ", "parameters='1 1' estimation='Manual 1.0 0.0 1.0' ");
+rename("Manual nf=1 cs=1");
+
+// Medium (multi-channnel(3)/redundant(4)/global parameters estimation)
+selectWindow("Input PureDenoise Macro");
+run("PureDenoise ", "parameters='3 4' estimation='Auto Global' ");
+rename("Auto-Global nf=3 cs=4");
+
+// Slow (multi-channnel(10)/redundant(4)/individual parameters estimation)
+selectWindow("Input PureDenoise Macro");
+run("PureDenoise ", "parameters='10 4' estimation='Auto Individual' ");
+rename("Auto-Individual nf=10 cs=4");
